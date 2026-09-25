@@ -1,25 +1,32 @@
-import React, { useState, useCallback, useRef } from 'react';
-import { PRODUCTS, CATEGORIES } from './data/catalog';
-import { Product } from './domain/models';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
+import { PRODUCTS } from './data/catalog';
+import { Product, CategoryCode } from './domain/models';
 import { useCart } from './hooks/useCart';
 import { useCatalogFilter } from './hooks/useCatalogFilter';
 import {
   Header,
-  HeroSection,
-  DailyBuffetSection,
-  CategoryTabs,
-  SearchBar,
-  ProductCard,
   ProductModal,
   StickyCartBar,
   CartDrawer,
   CheckoutModal,
   OrderSuccessModal,
+  BottomNav,
 } from './components';
+import { LandingView, MenuView } from './views';
 import { Phone, Clock, MapPin, Instagram } from 'lucide-react';
 
+const getInitialView = (): 'home' | 'menu' => {
+  if (typeof window === 'undefined') return 'home';
+  const hash = window.location.hash.toLowerCase();
+  if (hash === '#carta' || hash === '#menu') return 'menu';
+  return 'home';
+};
+
 export const App: React.FC = () => {
-  // 1. Hooks for Cart & Filter
+  // 1. Navigation state synchronized with URL hash
+  const [currentView, setCurrentView] = useState<'home' | 'menu'>(getInitialView);
+
+  // 2. Hooks for Cart & Filter
   const {
     items,
     totals,
@@ -39,7 +46,7 @@ export const App: React.FC = () => {
     filteredProducts,
   } = useCatalogFilter({ products: PRODUCTS });
 
-  // 2. UI Modals state
+  // 3. UI Modals state
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
@@ -47,8 +54,6 @@ export const App: React.FC = () => {
   const [modalProduct, setModalProduct] = useState<Product | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const toastTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  const menuSectionRef = useRef<HTMLDivElement>(null);
 
   // Toast notification helper
   const showToast = useCallback((msg: string) => {
@@ -61,18 +66,46 @@ export const App: React.FC = () => {
     }, 3500);
   }, []);
 
-  // Scroll to menu
-  const handleScrollToMenu = useCallback(() => {
-    if (menuSectionRef.current) {
-      menuSectionRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
+  // Listen to hash changes in window
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.toLowerCase();
+      if (hash === '#carta' || hash === '#menu') {
+        setCurrentView('menu');
+      } else if (hash === '#inicio' || hash === '#home' || hash === '') {
+        setCurrentView('home');
+      }
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
+  // Navigation handler
+  const navigateTo = useCallback(
+    (view: 'home' | 'menu', category?: CategoryCode) => {
+      setCurrentView(view);
+      if (view === 'menu') {
+        window.location.hash = '#carta';
+        if (category) {
+          setSelectedCategory(category);
+        }
+      } else {
+        window.location.hash = '#inicio';
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    },
+    [setSelectedCategory]
+  );
+
   // Quick add for simple items
-  const handleQuickAdd = useCallback((product: Product) => {
-    addItem(product);
-    showToast(`¡"${product.name}" agregado a tu comanda!`);
-  }, [addItem, showToast]);
+  const handleQuickAdd = useCallback(
+    (product: Product) => {
+      addItem(product);
+      showToast(`¡"${product.name}" agregado a tu comanda!`);
+    },
+    [addItem, showToast]
+  );
 
   // Open checkout from cart drawer
   const handleProceedToCheckout = useCallback(() => {
@@ -81,12 +114,15 @@ export const App: React.FC = () => {
   }, []);
 
   // Order success handler
-  const handleOrderSuccess = useCallback((ticketId: string) => {
-    setIsCheckoutOpen(false);
-    setSuccessTicketId(ticketId);
-    setIsSuccessOpen(true);
-    clearCart();
-  }, [clearCart]);
+  const handleOrderSuccess = useCallback(
+    (ticketId: string) => {
+      setIsCheckoutOpen(false);
+      setSuccessTicketId(ticketId);
+      setIsSuccessOpen(true);
+      clearCart();
+    },
+    [clearCart]
+  );
 
   // Restart order
   const handleNewOrder = useCallback(() => {
@@ -94,102 +130,64 @@ export const App: React.FC = () => {
     setSuccessTicketId(null);
     setSelectedCategory('PIZZAS');
     clearSearch();
-  }, [clearSearch, setSelectedCategory]);
+    navigateTo('menu');
+  }, [clearSearch, navigateTo, setSelectedCategory]);
 
-  // Active category display name
-  const currentCategoryInfo = CATEGORIES.find((c) => c.code === selectedCategory);
+  // Featured products for Landing view
+  const featuredProducts = PRODUCTS.filter((p) => p.isFeatured || Boolean(p.badge));
 
   return (
     <div className="min-h-screen bg-[#FFFBEB] text-slate-900 flex flex-col font-sans selection:bg-amber-400 selection:text-slate-950">
-      {/* 1. Header */}
+      {/* 1. Sticky Header with View Switcher */}
       <Header
         itemCount={totals.itemCount}
         onOpenCart={() => setIsCartOpen(true)}
+        currentView={currentView}
+        onNavigate={navigateTo}
       />
 
-      {/* 2. Hero Section */}
-      <HeroSection onScrollToMenu={handleScrollToMenu} />
-
-      {/* 2.5 Especiales: Comida al Paso por Peso & Menú del Día */}
-      <DailyBuffetSection />
-
-      {/* 3. Category Navigation Tabs */}
-      <CategoryTabs
-        selectedCategory={selectedCategory}
-        onSelectCategory={(cat) => {
-          setSelectedCategory(cat);
-          clearSearch();
-        }}
-        categoryCounts={categoryCounts}
-      />
-
-      {/* 4. Search Bar with Empty State */}
-      <SearchBar
-        query={searchQuery}
-        onQueryChange={setSearchQuery}
-        onClear={clearSearch}
-        resultCount={filteredProducts.length}
-        onViewAll={() => {
-          setSelectedCategory('ALL');
-          clearSearch();
-        }}
-      />
-
-      {/* 5. Main Catalog Products Section */}
-      <main ref={menuSectionRef} id="menu" className="flex-1 max-w-6xl w-full mx-auto px-4 pb-28">
-        {/* Section title & description */}
-        <div className="mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-2 border-b-3 border-slate-900 pb-3">
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-xl sm:text-2xl">
-                {selectedCategory === 'ALL'
-                  ? '🔥'
-                  : currentCategoryInfo?.badge
-                  ? '⭐'
-                  : '🍽️'}
-              </span>
-              <h2 className="text-2xl sm:text-3xl font-black uppercase font-serif text-slate-900 tracking-tight">
-                {searchQuery.trim().length > 0
-                  ? `Resultados para "${searchQuery}"`
-                  : selectedCategory === 'ALL'
-                  ? 'Menú Completo La Exquisita'
-                  : currentCategoryInfo?.name || 'Menú'}
-              </h2>
-            </div>
-            {currentCategoryInfo?.description && searchQuery.trim().length === 0 && (
-              <p className="text-xs sm:text-sm text-slate-600 font-bold mt-1">
-                {currentCategoryInfo.description}
-              </p>
-            )}
-          </div>
-
-          <span className="text-xs sm:text-sm font-black text-slate-700 bg-amber-200 px-3 py-1 rounded-xl border border-slate-900 shrink-0 self-start sm:self-auto">
-            {filteredProducts.length} {filteredProducts.length === 1 ? 'variedad' : 'variedades'}
-          </span>
-        </div>
-
-        {/* Product Cards Grid */}
-        {filteredProducts.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredProducts.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                onOpenModal={(p) => setModalProduct(p)}
-                onQuickAdd={handleQuickAdd}
-              />
-            ))}
-          </div>
+      {/* 2. Main View Container (LandingView vs MenuView) */}
+      <div className="flex-1 flex flex-col">
+        {currentView === 'home' ? (
+          <LandingView
+            onNavigateToMenu={(cat) => navigateTo('menu', cat)}
+            featuredProducts={featuredProducts}
+            onOpenProductModal={(p) => setModalProduct(p)}
+          />
+        ) : (
+          <MenuView
+            onNavigateToHome={() => navigateTo('home')}
+            selectedCategory={selectedCategory}
+            onSelectCategory={(cat) => {
+              setSelectedCategory(cat);
+              clearSearch();
+            }}
+            categoryCounts={categoryCounts}
+            searchQuery={searchQuery}
+            onSearchQueryChange={setSearchQuery}
+            onClearSearch={clearSearch}
+            filteredProducts={filteredProducts}
+            onOpenProductModal={(p) => setModalProduct(p)}
+            onQuickAdd={handleQuickAdd}
+          />
         )}
-      </main>
+      </div>
 
-      {/* 6. Sticky Floating Cart Bar */}
+      {/* 3. Sticky Floating Cart Bar (floats above mobile nav at bottom-16 sm:bottom-4) */}
       <StickyCartBar
         totals={totals}
         onOpenCart={() => setIsCartOpen(true)}
       />
 
-      {/* 7. Product Modal / Customization Drawer */}
+      {/* 4. Mobile Bottom Navigation Bar (sm:hidden) */}
+      <BottomNav
+        currentView={currentView}
+        onNavigate={navigateTo}
+        itemCount={totals.itemCount}
+        onOpenCart={() => setIsCartOpen(true)}
+      />
+
+      {/* 5. Product Modal / Customization Drawer */}
       <ProductModal
         product={modalProduct}
         isOpen={Boolean(modalProduct)}
@@ -200,7 +198,7 @@ export const App: React.FC = () => {
         }}
       />
 
-      {/* 8. Cart Drawer */}
+      {/* 6. Cart Drawer */}
       <CartDrawer
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
@@ -212,7 +210,7 @@ export const App: React.FC = () => {
         onProceedToCheckout={handleProceedToCheckout}
       />
 
-      {/* 9. Checkout Modal */}
+      {/* 7. Checkout Modal */}
       <CheckoutModal
         isOpen={isCheckoutOpen}
         onClose={() => setIsCheckoutOpen(false)}
@@ -222,14 +220,14 @@ export const App: React.FC = () => {
         onShowToast={showToast}
       />
 
-      {/* 10. Order Success Confirmation Modal */}
+      {/* 8. Order Success Confirmation Modal */}
       <OrderSuccessModal
         isOpen={isSuccessOpen}
         ticketId={successTicketId}
         onNewOrder={handleNewOrder}
       />
 
-      {/* 11. Retro Toast Notification */}
+      {/* 9. Retro Toast Notification */}
       {toastMessage && (
         <div
           role="status"
@@ -240,8 +238,8 @@ export const App: React.FC = () => {
         </div>
       )}
 
-      {/* 12. Traditional Rotisería Footer */}
-      <footer className="bg-slate-900 text-amber-100 border-t-4 border-slate-950 py-10 px-4 mt-auto">
+      {/* 10. Traditional Rotisería Footer */}
+      <footer className="bg-slate-900 text-amber-100 border-t-4 border-slate-950 py-10 px-4 mt-auto mb-14 sm:mb-0">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
           {/* Identity */}
           <div className="space-y-3">

@@ -1,12 +1,19 @@
 import React from 'react';
 import { ShoppingBag, Clock, Phone, MapPin, Instagram } from 'lucide-react';
 
-interface HeaderProps {
+export interface HeaderProps {
   itemCount: number;
   onOpenCart: () => void;
+  currentView: 'home' | 'menu';
+  onNavigate: (view: 'home' | 'menu') => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ itemCount, onOpenCart }) => {
+export const Header: React.FC<HeaderProps> = ({
+  itemCount,
+  onOpenCart,
+  currentView,
+  onNavigate,
+}) => {
   return (
     <header className="sticky top-0 z-30 bg-amber-500 text-slate-900 border-b-4 border-slate-900 shadow-retro">
       {/* Top Banner / Horarios & Redes */}
@@ -58,10 +65,17 @@ export const Header: React.FC<HeaderProps> = ({ itemCount, onOpenCart }) => {
       </div>
 
       {/* Main Header Bar */}
-      <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+      <div className="max-w-6xl mx-auto px-4 py-2.5 sm:py-3 flex items-center justify-between gap-2 sm:gap-4">
         {/* Brand Logo & Name */}
-        <a href="#inicio" className="flex items-center gap-2.5 group focus:outline-none">
-          <div className="w-12 h-12 sm:w-14 sm:h-14 bg-amber-200 rounded-full border-2 border-slate-900 flex items-center justify-center shadow-retro-sm group-hover:scale-105 transition-transform overflow-hidden p-0.5">
+        <a
+          href="#inicio"
+          onClick={(e) => {
+            e.preventDefault();
+            onNavigate('home');
+          }}
+          className="flex items-center gap-2 sm:gap-2.5 group focus:outline-none"
+        >
+          <div className="w-10 h-10 sm:w-14 sm:h-14 bg-amber-200 rounded-full border-2 border-slate-900 flex items-center justify-center shadow-retro-sm group-hover:scale-105 transition-transform overflow-hidden p-0.5 shrink-0">
             <img
               src="/assets/logo-pinup-transparent.png"
               alt="Logo La Exquisita"
@@ -70,29 +84,58 @@ export const Header: React.FC<HeaderProps> = ({ itemCount, onOpenCart }) => {
           </div>
           <div>
             <div className="flex items-center gap-1.5">
-              <span className="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 uppercase font-serif drop-shadow-sm">
+              <span className="text-xl sm:text-3xl font-black tracking-tight text-slate-900 uppercase font-serif drop-shadow-sm">
                 La Exquisita
               </span>
             </div>
-            <p className="text-[11px] sm:text-xs font-black tracking-wider uppercase text-red-800 -mt-1">
+            <p className="hidden sm:block text-[11px] sm:text-xs font-black tracking-wider uppercase text-red-800 -mt-1">
               Rotisería • Pizzería • Masa Casera
             </p>
           </div>
         </a>
+
+        {/* View Switcher: Inicio / Carta con indicador visual activo */}
+        <div className="flex items-center bg-amber-600/25 p-1 rounded-2xl border-2 border-slate-900 shadow-retro-sm">
+          <button
+            type="button"
+            onClick={() => onNavigate('home')}
+            className={`inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-4 py-1.5 rounded-xl text-xs sm:text-sm font-black transition-all ${
+              currentView === 'home'
+                ? 'bg-slate-900 text-amber-300 shadow-retro-sm'
+                : 'text-slate-950 hover:bg-amber-400/50'
+            }`}
+          >
+            <span>🏠</span>
+            <span className="inline">Inicio</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => onNavigate('menu')}
+            className={`inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-4 py-1.5 rounded-xl text-xs sm:text-sm font-black transition-all ${
+              currentView === 'menu'
+                ? 'bg-slate-900 text-amber-300 shadow-retro-sm'
+                : 'text-slate-950 hover:bg-amber-400/50'
+            }`}
+          >
+            <span>📋</span>
+            <span className="inline">Carta</span>
+          </button>
+        </div>
 
         {/* Right CTA: Cart Trigger */}
         <button
           onClick={onOpenCart}
           type="button"
           aria-label={`Ver carrito con ${itemCount} productos`}
-          className="relative flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-black px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl border-2 border-slate-900 shadow-retro active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all"
+          className="relative flex items-center gap-1.5 sm:gap-2 bg-red-600 hover:bg-red-700 text-white font-black px-3 py-1.5 sm:px-5 sm:py-2.5 rounded-xl border-2 border-slate-900 shadow-retro active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all shrink-0"
         >
-          <ShoppingBag className="w-5 h-5 sm:w-6 sm:h-6" />
-          <span className="hidden sm:inline text-sm font-extrabold tracking-wide uppercase">
+          <ShoppingBag className="w-4 h-4 sm:w-6 sm:h-6" />
+          <span className="hidden md:inline text-sm font-extrabold tracking-wide uppercase">
             Mi Pedido
           </span>
           {itemCount > 0 && (
-            <span className="bg-amber-400 text-slate-950 text-xs sm:text-sm font-black w-6 h-6 rounded-full border-2 border-slate-900 flex items-center justify-center shadow-retro-sm animate-bounce">
+            <span className="bg-amber-400 text-slate-950 text-xs sm:text-sm font-black w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 border-slate-900 flex items-center justify-center shadow-retro-sm animate-bounce">
               {itemCount}
             </span>
           )}

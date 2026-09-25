@@ -9,3 +9,4 @@ export * from './StickyCartBar';
 export * from './CartDrawer';
 export * from './CheckoutModal';
 export * from './OrderSuccessModal';
+export * from './BottomNav';
