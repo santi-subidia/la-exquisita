@@ -270,10 +270,15 @@ export const App: React.FC = () => {
             <h4 className="text-amber-400 font-black uppercase tracking-wider">
               Ubicación & Horarios
             </h4>
-            <p className="flex items-center justify-center md:justify-start gap-2 text-slate-300">
-              <Clock className="w-4 h-4 text-amber-400 shrink-0" />
-              <span>Lunes a Domingos: 20:00 a 00:30 hs</span>
-            </p>
+            <div className="space-y-1 text-slate-300">
+              <p className="flex items-center justify-center md:justify-start gap-2">
+                <Clock className="w-4 h-4 text-amber-400 shrink-0" />
+                <span>Mié a Dom: 12:00 a 15:00 y 20:00 a 00:30 hs</span>
+              </p>
+              <p className="text-[11px] text-amber-300 font-semibold text-center md:text-left">
+                (Lunes y Martes cerrado mediodía y noche)
+              </p>
+            </div>
             <p className="flex items-center justify-center md:justify-start gap-2 text-slate-300 pt-1">
               <MapPin className="w-4 h-4 text-red-500 shrink-0" />
               <a

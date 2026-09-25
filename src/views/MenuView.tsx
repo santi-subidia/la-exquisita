@@ -37,8 +37,8 @@ export const MenuView: React.FC<MenuViewProps> = ({
 
   return (
     <div className="flex flex-col w-full animate-fadeIn">
-      {/* 1. Barra superior limpia: Botón volver y Badge Carta Digital */}
-      <div className="bg-amber-100/80 border-b-2 border-slate-900/10 py-2.5 px-4">
+      {/* 1. Barra superior: Solo en Desktop (en celular la navegación es por BottomNav) */}
+      <div className="hidden sm:block bg-amber-100/80 border-b-2 border-slate-900/10 py-2.5 px-4">
         <div className="max-w-6xl mx-auto flex items-center justify-between gap-3">
           <button
             type="button"

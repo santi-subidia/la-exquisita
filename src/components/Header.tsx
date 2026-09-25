@@ -16,13 +16,13 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   return (
     <header className="sticky top-0 z-30 bg-amber-500 text-slate-900 border-b-4 border-slate-900 shadow-retro">
-      {/* Top Banner / Horarios & Redes */}
-      <div className="bg-slate-900 text-amber-100 text-xs sm:text-sm font-bold py-1.5 px-3 flex flex-wrap items-center justify-between gap-2 border-b-2 border-slate-800">
+      {/* Top Banner / Horarios & Redes - Solo visible en Desktop para mantener limpio el Header móvil */}
+      <div className="hidden sm:flex bg-slate-900 text-amber-100 text-xs font-bold py-1.5 px-4 items-center justify-between gap-2 border-b-2 border-slate-800">
         <div className="flex items-center gap-2">
           <span className="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="flex items-center gap-1">
+          <span className="flex items-center gap-1.5">
             <Clock className="w-3.5 h-3.5 text-amber-400 inline" />
-            Abierto de 20:00 a 00:30 hs
+            <span>Mié a Dom: 12:00-15:00 / 20:00-00:30 hs (Lun y Mar Cerrado)</span>
           </span>
         </div>
 
@@ -35,7 +35,7 @@ export const Header: React.FC<HeaderProps> = ({
             title="Ver ubicación en Google Maps"
           >
             <MapPin className="w-3.5 h-3.5 text-red-500 inline" />
-            <span className="hidden sm:inline">Entre Ríos, San Luis</span>
+            <span>Entre Ríos, San Luis</span>
           </a>
 
           <span className="text-slate-600">|</span>
@@ -48,10 +48,10 @@ export const Header: React.FC<HeaderProps> = ({
             title="Instagram @la.exquisitasl"
           >
             <Instagram className="w-3.5 h-3.5 text-pink-400 inline" />
-            <span className="hidden sm:inline">@la.exquisitasl</span>
+            <span>@la.exquisitasl</span>
           </a>
 
-          <span className="hidden sm:inline-block text-slate-600">|</span>
+          <span className="text-slate-600">|</span>
 
           <a
             href="tel:+5492664193004"
@@ -65,7 +65,7 @@ export const Header: React.FC<HeaderProps> = ({
       </div>
 
       {/* Main Header Bar */}
-      <div className="max-w-6xl mx-auto px-4 py-2.5 sm:py-3 flex items-center justify-between gap-2 sm:gap-4">
+      <div className="max-w-6xl mx-auto px-4 py-2 sm:py-3 flex items-center justify-between gap-3">
         {/* Brand Logo & Name */}
         <a
           href="#inicio"
@@ -75,7 +75,7 @@ export const Header: React.FC<HeaderProps> = ({
           }}
           className="flex items-center gap-2 sm:gap-2.5 group focus:outline-none"
         >
-          <div className="w-10 h-10 sm:w-14 sm:h-14 bg-amber-200 rounded-full border-2 border-slate-900 flex items-center justify-center shadow-retro-sm group-hover:scale-105 transition-transform overflow-hidden p-0.5 shrink-0">
+          <div className="w-9 h-9 sm:w-14 sm:h-14 bg-amber-200 rounded-full border-2 border-slate-900 flex items-center justify-center shadow-retro-sm group-hover:scale-105 transition-transform overflow-hidden p-0.5 shrink-0">
             <img
               src="/assets/logo-pinup-transparent.png"
               alt="Logo La Exquisita"
@@ -83,55 +83,53 @@ export const Header: React.FC<HeaderProps> = ({
             />
           </div>
           <div>
-            <div className="flex items-center gap-1.5">
-              <span className="text-xl sm:text-3xl font-black tracking-tight text-slate-900 uppercase font-serif drop-shadow-sm">
-                La Exquisita
-              </span>
-            </div>
+            <span className="text-xl sm:text-3xl font-black tracking-tight text-slate-900 uppercase font-serif drop-shadow-sm block leading-tight">
+              La Exquisita
+            </span>
             <p className="hidden sm:block text-[11px] sm:text-xs font-black tracking-wider uppercase text-red-800 -mt-1">
               Rotisería • Pizzería • Masa Casera
             </p>
           </div>
         </a>
 
-        {/* View Switcher: Inicio / Carta con indicador visual activo */}
-        <div className="flex items-center bg-amber-600/25 p-1 rounded-2xl border-2 border-slate-900 shadow-retro-sm">
+        {/* View Switcher: Desktop Only (En celular la navegación es por abajo con BottomNav) */}
+        <div className="hidden sm:flex items-center bg-amber-600/25 p-1 rounded-2xl border-2 border-slate-900 shadow-retro-sm">
           <button
             type="button"
             onClick={() => onNavigate('home')}
-            className={`inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-4 py-1.5 rounded-xl text-xs sm:text-sm font-black transition-all ${
+            className={`inline-flex items-center gap-1.5 px-4 py-1.5 rounded-xl text-sm font-black transition-all ${
               currentView === 'home'
                 ? 'bg-slate-900 text-amber-300 shadow-retro-sm'
                 : 'text-slate-950 hover:bg-amber-400/50'
             }`}
           >
             <span>🏠</span>
-            <span className="inline">Inicio</span>
+            <span>Inicio</span>
           </button>
 
           <button
             type="button"
             onClick={() => onNavigate('menu')}
-            className={`inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-4 py-1.5 rounded-xl text-xs sm:text-sm font-black transition-all ${
+            className={`inline-flex items-center gap-1.5 px-4 py-1.5 rounded-xl text-sm font-black transition-all ${
               currentView === 'menu'
                 ? 'bg-slate-900 text-amber-300 shadow-retro-sm'
                 : 'text-slate-950 hover:bg-amber-400/50'
             }`}
           >
             <span>📋</span>
-            <span className="inline">Carta</span>
+            <span>Carta</span>
           </button>
         </div>
 
-        {/* Right CTA: Cart Trigger */}
+        {/* Right CTA: Cart Trigger (En celular solo icono y badge para máxima limpieza) */}
         <button
           onClick={onOpenCart}
           type="button"
           aria-label={`Ver carrito con ${itemCount} productos`}
-          className="relative flex items-center gap-1.5 sm:gap-2 bg-red-600 hover:bg-red-700 text-white font-black px-3 py-1.5 sm:px-5 sm:py-2.5 rounded-xl border-2 border-slate-900 shadow-retro active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all shrink-0"
+          className="relative flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-black px-3 py-2 sm:px-5 sm:py-2.5 rounded-xl border-2 border-slate-900 shadow-retro active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all shrink-0"
         >
-          <ShoppingBag className="w-4 h-4 sm:w-6 sm:h-6" />
-          <span className="hidden md:inline text-sm font-extrabold tracking-wide uppercase">
+          <ShoppingBag className="w-5 h-5 sm:w-6 sm:h-6" />
+          <span className="hidden sm:inline text-sm font-extrabold tracking-wide uppercase">
             Mi Pedido
           </span>
           {itemCount > 0 && (

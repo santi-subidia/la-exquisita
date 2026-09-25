@@ -175,18 +175,30 @@ export const LandingView: React.FC<LandingViewProps> = ({
               </div>
             </div>
 
-            {/* Columna 2: Horarios */}
+            {/* Columna 2: Horarios de Atención */}
             <div className="space-y-2">
               <div className="inline-flex items-center gap-2 text-amber-700 text-xs font-black uppercase">
                 <Clock className="w-4 h-4" />
-                <span>Turno Noche</span>
+                <span>Horarios de Atención</span>
               </div>
-              <h3 className="text-lg font-black text-slate-900 uppercase font-serif">
-                20:00 a 00:30 hs
-              </h3>
-              <p className="text-xs text-slate-600 font-medium">
-                De Lunes a Domingos. Atención continua para retiro en mostrador y delivery a domicilio en San Luis Capital.
-              </p>
+              <div className="space-y-1.5">
+                <div>
+                  <span className="text-[11px] font-black uppercase text-red-600 block">🌞 Mediodía:</span>
+                  <p className="text-base sm:text-lg font-black text-slate-900 font-serif">12:00 a 15:00 hs</p>
+                </div>
+                <div>
+                  <span className="text-[11px] font-black uppercase text-amber-800 block">🌙 Noche:</span>
+                  <p className="text-base sm:text-lg font-black text-slate-900 font-serif">20:00 a 00:30 hs</p>
+                </div>
+              </div>
+              <div className="pt-1">
+                <span className="inline-block bg-amber-200 text-slate-900 text-[11px] font-black px-2 py-0.5 rounded border border-slate-900">
+                  Miércoles a Domingos
+                </span>
+                <p className="text-[11px] text-red-700 font-bold mt-1">
+                  ⚠️ Lunes y Martes cerrado (mediodía y noche).
+                </p>
+              </div>
             </div>
 
             {/* Columna 3: Instagram & WhatsApp */}

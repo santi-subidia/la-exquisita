@@ -32,7 +32,7 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({
   return (
     <nav
       aria-label="Categorías del menú"
-      className="sticky top-[104px] sm:top-[112px] z-20 bg-amber-100/95 backdrop-blur-sm border-b-3 border-slate-900 shadow-sm py-2 px-3 sm:px-4"
+      className="sticky top-[56px] sm:top-[104px] z-20 bg-amber-100/95 backdrop-blur-sm border-b-3 border-slate-900 shadow-sm py-2 px-3 sm:px-4"
     >
       <div
         ref={containerRef}

@@ -60,8 +60,8 @@ export const DailyBuffetSection: React.FC = () => {
             </p>
 
             <div className="bg-amber-50 p-3 rounded-xl border border-amber-200 text-[11px] sm:text-xs text-slate-600 font-semibold space-y-1">
-              <p>• Opciones frescas y variadas todos los días.</p>
-              <p>• Ideal para almorzar o cenar rico, rápido y sin demoras.</p>
+              <p>• Opciones frescas y variadas listas todos los días.</p>
+              <p>• Ideal para almorzar (12 a 15 hs) o cenar (20 a 00:30 hs) de Mié a Dom.</p>
               <p className="text-red-700 font-bold italic">
                 *(No está en la carta online porque las opciones cambian día a día)*
               </p>
@@ -102,7 +102,7 @@ export const DailyBuffetSection: React.FC = () => {
 
             <div className="bg-amber-50 p-3 rounded-xl border border-amber-200 text-[11px] sm:text-xs text-slate-600 font-semibold space-y-1">
               <p>• Platos caseros rotativos (pastas, guisados, milas especiales, etc.).</p>
-              <p>• Disponible para retirar o envío a domicilio.</p>
+              <p>• Disponible mediodía (12 a 15) y noche (20 a 00:30) de Mié a Dom.</p>
               <p className="text-red-700 font-bold italic">
                 *(Consultanos por WhatsApp el plato del día y precio actual)*
               </p>
