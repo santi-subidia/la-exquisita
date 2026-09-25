@@ -6,6 +6,7 @@ import { useCatalogFilter } from './hooks/useCatalogFilter';
 import {
   Header,
   HeroSection,
+  DailyBuffetSection,
   CategoryTabs,
   SearchBar,
   ProductCard,
@@ -15,7 +16,7 @@ import {
   CheckoutModal,
   OrderSuccessModal,
 } from './components';
-import { Utensils, Phone, Clock, MapPin } from 'lucide-react';
+import { Phone, Clock, MapPin, Instagram } from 'lucide-react';
 
 export const App: React.FC = () => {
   // 1. Hooks for Cart & Filter
@@ -108,6 +109,9 @@ export const App: React.FC = () => {
 
       {/* 2. Hero Section */}
       <HeroSection onScrollToMenu={handleScrollToMenu} />
+
+      {/* 2.5 Especiales: Comida al Paso por Peso & Menú del Día */}
+      <DailyBuffetSection />
 
       {/* 3. Category Navigation Tabs */}
       <CategoryTabs
@@ -236,46 +240,63 @@ export const App: React.FC = () => {
         </div>
       )}
 
-      {/* 12. Traditional Bodegón Footer */}
+      {/* 12. Traditional Rotisería Footer */}
       <footer className="bg-slate-900 text-amber-100 border-t-4 border-slate-950 py-10 px-4 mt-auto">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
           {/* Identity */}
           <div className="space-y-3">
-            <div className="flex items-center justify-center md:justify-start gap-2">
-              <div className="w-8 h-8 rounded-full bg-red-600 flex items-center justify-center text-white border border-amber-300">
-                <Utensils className="w-4 h-4" />
+            <div className="flex items-center justify-center md:justify-start gap-2.5">
+              <div className="w-11 h-11 rounded-full bg-amber-200 border-2 border-slate-900 overflow-hidden flex items-center justify-center p-0.5 shadow-retro-sm">
+                <img
+                  src="/assets/logo-pinup-transparent.png"
+                  alt="La Exquisita"
+                  className="w-full h-full object-contain"
+                />
               </div>
-              <span className="text-xl font-black uppercase font-serif text-amber-400">
-                La Exquisita
-              </span>
+              <div>
+                <span className="text-xl font-black uppercase font-serif text-amber-400 block leading-tight">
+                  La Exquisita
+                </span>
+                <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
+                  Rotisería & Pizzería
+                </span>
+              </div>
             </div>
             <p className="text-xs text-slate-400 leading-relaxed max-w-xs mx-auto md:mx-0">
-              Rotisería, lomitería y pizzería tradicional de barrio. Sabor casero de verdad, porciones generosas y atención personalizada en San Luis.
+              Masa 100% casera amasada todos los días por nosotras. Disfrutá de comida al paso por peso, menú del día rotativo y las mejores pizzas y lomos de San Luis.
             </p>
           </div>
 
           {/* Horarios & Ubicación */}
           <div className="space-y-2 text-xs sm:text-sm">
             <h4 className="text-amber-400 font-black uppercase tracking-wider">
-              Horario de Atención
+              Ubicación & Horarios
             </h4>
             <p className="flex items-center justify-center md:justify-start gap-2 text-slate-300">
-              <Clock className="w-4 h-4 text-amber-400" />
+              <Clock className="w-4 h-4 text-amber-400 shrink-0" />
               <span>Lunes a Domingos: 20:00 a 00:30 hs</span>
             </p>
             <p className="flex items-center justify-center md:justify-start gap-2 text-slate-300 pt-1">
-              <MapPin className="w-4 h-4 text-red-500" />
-              <span>San Luis Capital, Argentina</span>
+              <MapPin className="w-4 h-4 text-red-500 shrink-0" />
+              <a
+                href="https://maps.app.goo.gl/pj1xdjjb5M7FxLtZ7"
+                target="_blank"
+                rel="noreferrer"
+                className="hover:underline font-bold text-amber-300 flex items-center gap-1"
+                title="Abrir ubicación en Google Maps"
+              >
+                <span>Entre Ríos, San Luis Capital (Ver Mapa 🗺️)</span>
+              </a>
             </p>
           </div>
 
-          {/* Contacto & WhatsApp */}
+          {/* Contacto & Redes */}
           <div className="space-y-2 text-xs sm:text-sm">
             <h4 className="text-amber-400 font-black uppercase tracking-wider">
-              Pedidos & WhatsApp
+              Contacto & Redes
             </h4>
             <p className="flex items-center justify-center md:justify-start gap-2 text-slate-300">
-              <Phone className="w-4 h-4 text-emerald-400" />
+              <Phone className="w-4 h-4 text-emerald-400 shrink-0" />
               <a
                 href="https://wa.me/5492664193004"
                 target="_blank"
@@ -285,14 +306,25 @@ export const App: React.FC = () => {
                 +54 9 266 419-3004
               </a>
             </p>
+            <p className="flex items-center justify-center md:justify-start gap-2 text-slate-300">
+              <Instagram className="w-4 h-4 text-pink-400 shrink-0" />
+              <a
+                href="https://www.instagram.com/la.exquisitasl/"
+                target="_blank"
+                rel="noreferrer"
+                className="hover:underline font-bold text-pink-300"
+              >
+                @la.exquisitasl
+              </a>
+            </p>
             <p className="text-[11px] text-slate-400 pt-1">
-              Enviá tu pedido directamente a nuestro WhatsApp oficial y pasá a retirar o esperalo calentito en tu casa.
+              Enviá tu pedido online directo a WhatsApp. Para Menú del Día o comida por peso, ¡escribinos!
             </p>
           </div>
         </div>
 
         <div className="max-w-6xl mx-auto mt-8 pt-6 border-t border-slate-800 text-center text-[11px] text-slate-500 font-medium">
-          © {new Date().getFullYear()} La Exquisita - San Luis. Hecho con pasión criolla y masa casera.
+          © {new Date().getFullYear()} La Exquisita - San Luis. Hecho con masa casera artesanal.
         </div>
       </footer>
     </div>

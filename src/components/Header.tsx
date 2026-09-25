@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShoppingBag, Clock, Phone, Utensils } from 'lucide-react';
+import { ShoppingBag, Clock, Phone, MapPin, Instagram } from 'lucide-react';
 
 interface HeaderProps {
   itemCount: number;
@@ -9,7 +9,7 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({ itemCount, onOpenCart }) => {
   return (
     <header className="sticky top-0 z-30 bg-amber-500 text-slate-900 border-b-4 border-slate-900 shadow-retro">
-      {/* Top Banner / Horarios & Contacto */}
+      {/* Top Banner / Horarios & Redes */}
       <div className="bg-slate-900 text-amber-100 text-xs sm:text-sm font-bold py-1.5 px-3 flex flex-wrap items-center justify-between gap-2 border-b-2 border-slate-800">
         <div className="flex items-center gap-2">
           <span className="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
@@ -18,19 +18,42 @@ export const Header: React.FC<HeaderProps> = ({ itemCount, onOpenCart }) => {
             Abierto de 20:00 a 00:30 hs
           </span>
         </div>
+
         <div className="flex items-center gap-3">
           <a
-            href="tel:+5492664193004"
-            className="flex items-center gap-1 hover:text-amber-300 transition-colors text-xs sm:text-sm"
-            title="Llamar a La Exquisita"
+            href="https://maps.app.goo.gl/pj1xdjjb5M7FxLtZ7"
+            target="_blank"
+            rel="noreferrer"
+            className="flex items-center gap-1 hover:text-amber-300 transition-colors text-xs"
+            title="Ver ubicación en Google Maps"
           >
-            <Phone className="w-3.5 h-3.5 text-amber-400 inline" />
+            <MapPin className="w-3.5 h-3.5 text-red-500 inline" />
+            <span className="hidden sm:inline">Entre Ríos, San Luis</span>
+          </a>
+
+          <span className="text-slate-600">|</span>
+
+          <a
+            href="https://www.instagram.com/la.exquisitasl/"
+            target="_blank"
+            rel="noreferrer"
+            className="flex items-center gap-1 hover:text-pink-300 transition-colors text-xs"
+            title="Instagram @la.exquisitasl"
+          >
+            <Instagram className="w-3.5 h-3.5 text-pink-400 inline" />
+            <span className="hidden sm:inline">@la.exquisitasl</span>
+          </a>
+
+          <span className="hidden sm:inline-block text-slate-600">|</span>
+
+          <a
+            href="tel:+5492664193004"
+            className="flex items-center gap-1 hover:text-emerald-300 transition-colors text-xs"
+            title="Llamar o WhatsApp"
+          >
+            <Phone className="w-3.5 h-3.5 text-emerald-400 inline" />
             <span>266 419-3004</span>
           </a>
-          <span className="hidden sm:inline-block text-slate-500">|</span>
-          <span className="hidden sm:inline-block text-amber-300 font-semibold tracking-wide">
-            📍 San Luis, Argentina
-          </span>
         </div>
       </div>
 
@@ -38,8 +61,12 @@ export const Header: React.FC<HeaderProps> = ({ itemCount, onOpenCart }) => {
       <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
         {/* Brand Logo & Name */}
         <a href="#inicio" className="flex items-center gap-2.5 group focus:outline-none">
-          <div className="w-11 h-11 sm:w-13 sm:h-13 bg-red-600 rounded-full border-2 border-slate-900 flex items-center justify-center shadow-retro-sm group-hover:scale-105 transition-transform">
-            <Utensils className="w-6 h-6 text-amber-100" />
+          <div className="w-12 h-12 sm:w-14 sm:h-14 bg-amber-200 rounded-full border-2 border-slate-900 flex items-center justify-center shadow-retro-sm group-hover:scale-105 transition-transform overflow-hidden p-0.5">
+            <img
+              src="/assets/logo-pinup-transparent.png"
+              alt="Logo La Exquisita"
+              className="w-full h-full object-contain -rotate-3"
+            />
           </div>
           <div>
             <div className="flex items-center gap-1.5">
@@ -48,7 +75,7 @@ export const Header: React.FC<HeaderProps> = ({ itemCount, onOpenCart }) => {
               </span>
             </div>
             <p className="text-[11px] sm:text-xs font-black tracking-wider uppercase text-red-800 -mt-1">
-              Rotisería • Pizzería • Bodegón
+              Rotisería • Pizzería • Masa Casera
             </p>
           </div>
         </a>

@@ -1,7 +1,7 @@
 import { Category, Product, EmpanadaFlavorCode } from '../domain/models';
 
 export const CATEGORIES: Category[] = [
-  { code: 'PIZZAS', name: 'Pizzas', description: 'A la piedra con salsa casera y orégano' },
+  { code: 'PIZZAS', name: 'Pizzas', description: 'Elaboradas con masa casera propia, salsa artesanal y orégano' },
   { code: 'PROMOS_COMBOS', name: 'Promos & Combos', badge: '¡Ahorro!', description: 'Los mejores combos para compartir' },
   { code: 'ESPECIALIDADES', name: 'Especialidades', badge: 'De la Casa', description: 'Salen con papas fritas incluidas' },
   { code: 'SANDWICHS', name: 'Sándwichs', badge: '2x con Fritas', description: 'En pan artesanal y con papas fritas' },
@@ -9,7 +9,7 @@ export const CATEGORIES: Category[] = [
   { code: 'EMPANADAS', name: 'Empanadas', badge: 'Horno Criollo', description: 'Masa casera tradicional al horno' },
   { code: 'PAPAS_FRITAS', name: 'Papas Fritas', description: 'Crocantes y recién hechas' },
   { code: 'MILANESAS', name: 'Milanesas', badge: 'Carne o Soja', description: 'Con papas fritas o ensalada' },
-  { code: 'MINUTAS_TARTAS', name: 'Tartas & Minutas', description: 'Cocina criolla de bodegón' },
+  { code: 'MINUTAS_TARTAS', name: 'Tartas & Minutas', description: 'Tartas caseras con masa de elaboración propia, tortillas y costeletas' },
 ];
 
 export const EMPANADA_FLAVORS: { code: EmpanadaFlavorCode; name: string; description: string }[] = [
@@ -664,7 +664,7 @@ export const PRODUCTS: Product[] = [
     code: 'PAPAS_GRAMAJO',
     name: 'Revuelto Gramajo',
     category: 'PAPAS_FRITAS',
-    description: 'Clásico bodegón: papas doradas, jamón cocido en tiritas, arvejas tiernas y huevo revuelto',
+    description: 'Clásica receta tradicional: papas doradas, jamón cocido en tiritas, arvejas tiernas y huevo revuelto',
     basePrice: 13000,
   },
   {

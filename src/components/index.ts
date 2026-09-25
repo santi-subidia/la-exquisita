@@ -1,5 +1,6 @@
 export * from './Header';
 export * from './HeroSection';
+export * from './DailyBuffetSection';
 export * from './CategoryTabs';
 export * from './SearchBar';
 export * from './ProductCard';

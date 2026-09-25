@@ -56,7 +56,7 @@ export function useCatalogFilter({
       // When user searches text, we can search across all or within category.
       // Usually users expect search across all products if category is ALL or if searching,
       // but if category is explicitly selected and they search, we should filter within selectedCategory UNLESS query is active and they want global search.
-      // A common friendly bodegón UX: if search query is present, search all products so they find their dish easily, or respect category if set. Let's make search apply across all products if query is typed, or within category if category is selected!
+      // Friendly rotisería UX: if search query is present, search all products so they find their dish easily.
       // Better: if searching, still show matches. If selectedCategory !== 'ALL' and NO query, filter by category. If query is active, filter by query across all or within category?
       // Let's do: if query is present, search within selectedCategory unless user selects 'ALL' or query has no results in category. Even cleaner: when query is present, if category !== 'ALL', filter by both category and query.
       if (selectedCategory !== 'ALL' && query.length === 0) {
