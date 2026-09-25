@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #FFFBEB;
+    color: #111827;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(1.5deg);
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 22s linear infinite;
+}
+
+/* Retro Bodegón utilities */
+.retro-border {
+  border: 2px solid #111827;
+}
+
+.retro-shadow {
+  box-shadow: 4px 4px 0px 0px #111827;
+}
+
+.retro-shadow-sm {
+  box-shadow: 2px 2px 0px 0px #111827;
+}
+
+.retro-shadow-lg {
+  box-shadow: 6px 6px 0px 0px #111827;
+}
+
+.retro-badge-stamp {
+  position: relative;
+  border: 2px dashed #111827;
+  border-radius: 9999px;
+}
